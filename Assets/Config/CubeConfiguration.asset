@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06cbd864ee89eff5782d9e48a259ba4f, type: 3}
+  m_Name: CubeConfiguration
+  m_EditorClassIdentifier: "Assembly-CSharp::VivantCon\uFB01guration"
+  tailleRandom: {x: 0.3, y: 1.7}
+  masseRandom: {x: 0.2, y: 10}
+  materiauxRandom:
+  - {fileID: 2100000, guid: 83eabfe673263a445972586e5d8b56ee, type: 2}
+  - {fileID: 2100000, guid: cb73459ef23e188309ad1fa60167718f, type: 2}
+  - {fileID: 2100000, guid: c3251eeb71f856a8195bc038e5cf90f2, type: 2}
+  - {fileID: 2100000, guid: bf6522ad471f678838256e34207756df, type: 2}
+  - {fileID: 2100000, guid: 846aec05ba63b5e6db37f4eb7e954ee3, type: 2}
