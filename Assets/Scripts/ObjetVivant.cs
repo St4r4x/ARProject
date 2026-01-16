@@ -6,6 +6,7 @@ public class ObjetVivant : MonoBehaviour
     public Rigidbody rigidbody;
     public float _targetTimer;
     public Vector3 _target;
+    private float _nextJumpTime = 0f;
     
     [Header("Layers")]
     public LayerMask layerSol;
@@ -21,6 +22,11 @@ public class ObjetVivant : MonoBehaviour
         rigidbody.mass = randomMass;
         float rendererIndex = Mathf.FloorToInt(Mathf.Lerp(0, configuration.materiauxRandom.Count, random));
         renderer.material = configuration.materiauxRandom[(int)rendererIndex];
+        // initialize jump timer
+        if (configuration != null && configuration.enableJump)
+        {
+            _nextJumpTime = Time.time + Random.Range(configuration.jumpInterval.x, configuration.jumpInterval.y);
+        }
 }
 
     // Update is called once per frame
@@ -31,12 +37,29 @@ public class ObjetVivant : MonoBehaviour
         {
             if(TryPickTarget(out Vector3 target))
             {
+                _target = target;
                 _targetTimer = Random.Range(configuration.tempsAttente.x, configuration.tempsAttente.y);
             }
             else
             {
                 _targetTimer = 1f;
             }
+        }
+
+        // Jump decision
+        if (configuration != null && configuration.enableJump && Time.time >= _nextJumpTime)
+        {
+            float power = configuration.randomJumpPower
+                ? Random.Range(configuration.jumpPowerRandom.x, configuration.jumpPowerRandom.y)
+                : configuration.jumpPower;
+
+            if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
+            if (rigidbody != null)
+            {
+                rigidbody.AddForce(Vector3.up * power, ForceMode.Acceleration);
+            }
+
+            _nextJumpTime = Time.time + Random.Range(configuration.jumpInterval.x, configuration.jumpInterval.y);
         }
     }
     bool TryPickTarget(out Vector3 target)
@@ -64,9 +87,19 @@ public class ObjetVivant : MonoBehaviour
     }
     public void FixedUpdate()
     {
+        if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
+        if (rigidbody == null) return;
+
         var to = (_target - rigidbody.position);
         to.y = 0f;
-        rigidbody.AddForce(to.normalized*configuration.acceleration, ForceMode.Acceleration);
-        rigidbody.linearVelocity = Vector3.ClampMagnitude(rigidbody.linearVelocity, configuration.vitesseMax);
+        if (to.sqrMagnitude > 0.001f)
+            rigidbody.AddForce(to.normalized * configuration.acceleration, ForceMode.Acceleration);
+
+        // Clamp horizontal speed (use linearVelocity API)
+        Vector3 v = rigidbody.linearVelocity;
+        Vector3 horizontal = new Vector3(v.x, 0f, v.z);
+        float max = configuration != null ? configuration.vitesseMax : 10f;
+        horizontal = Vector3.ClampMagnitude(horizontal, max);
+        rigidbody.linearVelocity = new Vector3(horizontal.x, v.y, horizontal.z);
     }
 }
