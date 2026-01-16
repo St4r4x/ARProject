@@ -20,3 +20,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c3251eeb71f856a8195bc038e5cf90f2, type: 2}
   - {fileID: 2100000, guid: bf6522ad471f678838256e34207756df, type: 2}
   - {fileID: 2100000, guid: 846aec05ba63b5e6db37f4eb7e954ee3, type: 2}
+  tempsAttente: {x: 0, y: 0}
+  _target: {x: 0, y: 0, z: 0}
+  rayonMouvement: 2
+  acceleration: 10
+  vitesseMax: 0.5

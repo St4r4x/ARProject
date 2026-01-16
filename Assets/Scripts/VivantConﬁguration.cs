@@ -10,8 +10,14 @@ public class VivantConﬁguration : ScriptableObject
     public Vector2 tailleRandom;
     public Vector2 masseRandom;
     public List<Material>materiauxRandom = new();
+    public Vector2 tempsAttente;
 
+    [Header("Mouvement")]
+    public float rayonMouvement;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Vitesse")]
+    public float acceleration;
+    public float vitesseMax;
     void Start()
     {
         
